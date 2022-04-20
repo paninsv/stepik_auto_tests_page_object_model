@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from .locators import MainPageLocators
 
 
 class BasePage:
@@ -20,8 +21,5 @@ class BasePage:
 
     # def should_be_login_link(self):
     #     self.browser.find_element(By.CSS_SELECTOR, "#login_link_invalid")
-
-    def should_be_login_link(self):
-        assert self.is_element_present(By.CSS_SELECTOR, "#login_link"), "Login link is not presented"
 
 
