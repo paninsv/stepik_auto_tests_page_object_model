@@ -1,22 +1,23 @@
-import time
+import pytest
 
 from .pages.product_page import ProductPage
 
 
-def open_page_and_get_code(browser):
-    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
+def open_page_and_get_code(browser,
+                           link="http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+                                "?promo=newYear2019"):
     page = ProductPage(browser, link)  # инициализируем Page Object,
     page.open()
     page.add_product_to_basket()
     page.solve_quiz_and_get_code()
     return page
 
-
-def test_should_be_add_to_basket_button(browser):
-    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
-    page = ProductPage(browser, link)  # инициализируем Page Object,
-    page.open()
-    page.should_be_add_to_basket_button()
+#
+# def test_should_be_add_to_basket_button(browser):
+#     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
+#     page = ProductPage(browser, link)  # инициализируем Page Object,
+#     page.open()
+#     page.should_be_add_to_basket_button()
 
 
 def test_should_be_name_in_basket_message(browser):
@@ -31,8 +32,12 @@ def test_should_be_price_in_basket_message(browser):
     page.should_be_price_in_basket_message()
 
 
-def test_guest_can_add_product_to_basket(browser):
-    page = open_page_and_get_code(browser)
+@pytest.mark.parametrize('offer_number', [*range(7),
+                                          pytest.param(7, marks=pytest.mark.skip(reason="some bug")),
+                                          *range(8, 10)])
+def test_guest_can_add_product_to_basket(browser, offer_number):
+    link = f'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{offer_number}'
+    page = open_page_and_get_code(browser, link)
 
     # есть ли элементы с сообщениями о добавлении в продукта в корзину и его цене
     # странно что по заданию все в 1 тесте должно быть, а не раскидано по разным  .....

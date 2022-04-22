@@ -1,8 +1,11 @@
 import math
 
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
-from .locators import MainPageLocators
+from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException, TimeoutException
+
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 
 class BasePage:
@@ -34,7 +37,7 @@ class BasePage:
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
-    # def should_be_login_link(self):
-    #     self.browser.find_element(By.CSS_SELECTOR, "#login_link_invalid")
+
+
 
 
