@@ -44,6 +44,7 @@ class LoginPage(BasePage):
         registration_password2_field.send_keys(password)
 
         registration_button.click()
+        self.wait_for_user_authorization()
 
 
 

@@ -72,6 +72,10 @@ class BasePage:
 
         return True
 
+    def wait_for_user_authorization(self, timeout=10):
+        WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located(BasePageLocators.USER_ICON))
+
+
     def should_be_authorized_user(self):
         assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
                                                                      " probably unauthorised user"

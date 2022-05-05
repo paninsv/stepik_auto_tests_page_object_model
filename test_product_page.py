@@ -38,7 +38,7 @@ def test_should_be_price_in_basket_message(browser):
     page.should_be_price_in_basket_message()
 
 
-@pytest.mark.skip
+@pytest.mark.need_review
 @pytest.mark.parametrize('offer_number', [*range(7),
                                           pytest.param(7, marks=pytest.mark.skip(reason="some bug")),
                                           *range(8, 10)])
@@ -99,7 +99,8 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
-def test_guest_can_go_to_login_page(browser):
+@pytest.mark.need_review
+def test_guest_can_go_to_login_page_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
     page.open()
@@ -108,8 +109,8 @@ def test_guest_can_go_to_login_page(browser):
     login_page.should_be_login_page()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
-    #
     # Гость открывает страницу товара
     # Переходит в корзину по кнопке в шапке
     # Ожидаем, что в корзине нет товаров
@@ -138,9 +139,9 @@ class TestUserAddToBasketFromProductPage:
         login_page = LoginPage(browser, browser.current_url)
 
         email = str(time.time()) + "@fakemail.org"
-        password = '11112222333'
+        password = str(time.time())
         login_page.register_new_user(email, password)
-        time.sleep(10)
+
         login_page.should_be_authorized_user()
 
         # yield
@@ -155,6 +156,7 @@ class TestUserAddToBasketFromProductPage:
 
         page.should_not_be_success_message()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser, offer_number=1):
         link = f'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{offer_number}'
         page = open_page_and_get_code(browser, link)
